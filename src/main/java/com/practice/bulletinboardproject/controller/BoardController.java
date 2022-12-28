@@ -1,12 +1,13 @@
 package com.practice.bulletinboardproject.controller;
 
-import com.practice.bulletinboardproject.controller.service.BoardService;
+import com.practice.bulletinboardproject.service.BoardService;
 import com.practice.bulletinboardproject.entity.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BoardController {
@@ -23,5 +24,11 @@ public class BoardController {
     public String boardWritePro(Board board){
         boardService.write(board);
         return "";
+    }
+
+    @GetMapping("/board/list")
+    public String boardList(Model model){
+        model.addAttribute("list", boardService.boardList());
+        return "boardlist";
     }
 }
