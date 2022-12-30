@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class BoardController {
@@ -20,8 +23,8 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, Model model){ //model에 담겨서 html로 넘어감
-        boardService.write(board);
+    public String boardWritePro(Board board, Model model, MultipartFile file) throws IOException { //model에 담겨서 html로 넘어감
+        boardService.write(board, file);
 
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("searchURL", "/board/list");
@@ -55,11 +58,11 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model){
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model, MultipartFile file) throws Exception{
         Board tempBoard = boardService.boardView(id); //기존의 글 검색
         tempBoard.setTitle(board.getTitle());
         tempBoard.setContent(board.getContent());
-        boardService.write(tempBoard);
+        boardService.write(tempBoard, file);
         model.addAttribute("message", "글 수정이 완료되었습니다.");
         model.addAttribute("searchURL", "/board/list");
         return "message";
