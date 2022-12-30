@@ -53,5 +53,10 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
+    // 키워드 포함 게시글 검색
+    public Page<Board> boardSearchList(String searchKeyword, Pageable pageable){
+        return boardRepository.findByTitleContainingIgnoreCase(searchKeyword, pageable);
+    }
+
 
 }

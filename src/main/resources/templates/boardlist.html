@@ -14,10 +14,19 @@
 <body>
 
 <div class="layout">
+    <style>
+        .right-box {
+            float: right;
+        }
+    </style>
+    <form th:action = "@{/board/list}" method="get">
+        <div class="right-box"> <input type="text" name="searchKeyword">
+        <button type="submit"> 검색 </button> </div>
+    <br>
+    </form>
     <table>
         <thead>
             <tr>
-                <a th:href="@{/board/write}"> 글 작성 </a>
                 <th> 글 번호</th>
                 <th> 제목 </th>
             </tr>
@@ -33,10 +42,13 @@
     </table>
 
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-        <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1})}" th:text="${page}"></a>
+        <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
         <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
-
     </th:block>
+    <br>
+    <div class="right-box"><a th:href="@{/board/write}"> 작성하기 </a></div>
+
+
 </div>
 </body>
 </html>
